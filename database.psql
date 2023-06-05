@@ -1,0 +1,328 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 15.2
+-- Dumped by pg_dump version 15.2
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: alternatives; Type: TABLE; Schema: public; Owner: nanditoamri
+--
+
+CREATE TABLE public.alternatives (
+    alter_id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    ram integer,
+    harddisk integer,
+    screen_size double precision,
+    battery_life double precision,
+    weight double precision,
+    price integer,
+    processor integer NOT NULL,
+    warranty integer
+);
+
+
+ALTER TABLE public.alternatives OWNER TO nanditoamri;
+
+--
+-- Name: alternatives_alter_id_seq; Type: SEQUENCE; Schema: public; Owner: nanditoamri
+--
+
+CREATE SEQUENCE public.alternatives_alter_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.alternatives_alter_id_seq OWNER TO nanditoamri;
+
+--
+-- Name: alternatives_alter_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nanditoamri
+--
+
+ALTER SEQUENCE public.alternatives_alter_id_seq OWNED BY public.alternatives.alter_id;
+
+
+--
+-- Name: criteria; Type: TABLE; Schema: public; Owner: nanditoamri
+--
+
+CREATE TABLE public.criteria (
+    criteria_id integer NOT NULL,
+    name character varying(255),
+    used integer,
+    impact integer,
+    weight double precision
+);
+
+
+ALTER TABLE public.criteria OWNER TO nanditoamri;
+
+--
+-- Name: criteria_criteria_id_seq; Type: SEQUENCE; Schema: public; Owner: nanditoamri
+--
+
+CREATE SEQUENCE public.criteria_criteria_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.criteria_criteria_id_seq OWNER TO nanditoamri;
+
+--
+-- Name: criteria_criteria_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nanditoamri
+--
+
+ALTER SEQUENCE public.criteria_criteria_id_seq OWNED BY public.criteria.criteria_id;
+
+
+--
+-- Name: processor; Type: TABLE; Schema: public; Owner: nanditoamri
+--
+
+CREATE TABLE public.processor (
+    processor_id integer NOT NULL,
+    processor_name character varying(255)
+);
+
+
+ALTER TABLE public.processor OWNER TO nanditoamri;
+
+--
+-- Name: processor_processor_id_seq; Type: SEQUENCE; Schema: public; Owner: nanditoamri
+--
+
+CREATE SEQUENCE public.processor_processor_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.processor_processor_id_seq OWNER TO nanditoamri;
+
+--
+-- Name: processor_processor_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nanditoamri
+--
+
+ALTER SEQUENCE public.processor_processor_id_seq OWNED BY public.processor.processor_id;
+
+
+--
+-- Name: specification; Type: TABLE; Schema: public; Owner: nanditoamri
+--
+
+CREATE TABLE public.specification (
+    spec_id integer NOT NULL,
+    processor character varying(255) NOT NULL,
+    ram integer NOT NULL,
+    harddisk integer NOT NULL,
+    vga character varying(255),
+    screen_size double precision,
+    battery_life double precision,
+    weight double precision,
+    warranty character varying(255),
+    price integer NOT NULL
+);
+
+
+ALTER TABLE public.specification OWNER TO nanditoamri;
+
+--
+-- Name: specification_spec_id_seq; Type: SEQUENCE; Schema: public; Owner: nanditoamri
+--
+
+CREATE SEQUENCE public.specification_spec_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.specification_spec_id_seq OWNER TO nanditoamri;
+
+--
+-- Name: specification_spec_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nanditoamri
+--
+
+ALTER SEQUENCE public.specification_spec_id_seq OWNED BY public.specification.spec_id;
+
+
+--
+-- Name: alternatives alter_id; Type: DEFAULT; Schema: public; Owner: nanditoamri
+--
+
+ALTER TABLE ONLY public.alternatives ALTER COLUMN alter_id SET DEFAULT nextval('public.alternatives_alter_id_seq'::regclass);
+
+
+--
+-- Name: criteria criteria_id; Type: DEFAULT; Schema: public; Owner: nanditoamri
+--
+
+ALTER TABLE ONLY public.criteria ALTER COLUMN criteria_id SET DEFAULT nextval('public.criteria_criteria_id_seq'::regclass);
+
+
+--
+-- Name: processor processor_id; Type: DEFAULT; Schema: public; Owner: nanditoamri
+--
+
+ALTER TABLE ONLY public.processor ALTER COLUMN processor_id SET DEFAULT nextval('public.processor_processor_id_seq'::regclass);
+
+
+--
+-- Name: specification spec_id; Type: DEFAULT; Schema: public; Owner: nanditoamri
+--
+
+ALTER TABLE ONLY public.specification ALTER COLUMN spec_id SET DEFAULT nextval('public.specification_spec_id_seq'::regclass);
+
+
+--
+-- Data for Name: alternatives; Type: TABLE DATA; Schema: public; Owner: nanditoamri
+--
+
+COPY public.alternatives (alter_id, name, ram, harddisk, screen_size, battery_life, weight, price, processor, warranty) FROM stdin;
+1	Lenovo Ideapad S145 Core i5 10th Gen	8	1000	15.6	8	1.85	7979000	4	1
+3	MSI GL65 Leopard Core i7 10th Gen	16	1000	15.6	14	2.3	19592000	5	2
+4	Acer Aspire 7 Ryzen 5 Quad Core 3550H	8	512	15.6	10	2.15	9249000	3	1
+\.
+
+
+--
+-- Data for Name: criteria; Type: TABLE DATA; Schema: public; Owner: nanditoamri
+--
+
+COPY public.criteria (criteria_id, name, used, impact, weight) FROM stdin;
+1	processor	1	1	0.2
+2	ram	1	1	0.1
+3	harddisk	1	1	0.1
+5	screen_size	1	1	0.1
+6	battery_life	1	1	0.1
+7	weight	1	-1	0.1
+8	warranty	1	1	0.1
+9	price	1	-1	0.2
+\.
+
+
+--
+-- Data for Name: processor; Type: TABLE DATA; Schema: public; Owner: nanditoamri
+--
+
+COPY public.processor (processor_id, processor_name) FROM stdin;
+1	Intel Pentium
+2	Intel Celeron
+3	Intel Core i3
+4	Intel Core i5
+5	Intel Core i7
+\.
+
+
+--
+-- Data for Name: specification; Type: TABLE DATA; Schema: public; Owner: nanditoamri
+--
+
+COPY public.specification (spec_id, processor, ram, harddisk, vga, screen_size, battery_life, weight, warranty, price) FROM stdin;
+1	Intel Core i5 Processor (10th Gen)	8	1000	Intel Iris Plus	15.6	8	1.85	1 Year Onsite Warranty	7979000
+2	Intel Core i3 Processor (11th Gen)	8	256	Intel Integrated UHD	14	6	1.46	1 Year Onsite Warranty	7436000
+3	Intel Core i7 Processor (10th Gen)	16	1000	NVIDIA® GeForce® RTX 2070 SUPER™ With 8GB GDDR6	15.6	14	2.3	2 Year Warranty	19592000
+\.
+
+
+--
+-- Name: alternatives_alter_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nanditoamri
+--
+
+SELECT pg_catalog.setval('public.alternatives_alter_id_seq', 4, true);
+
+
+--
+-- Name: criteria_criteria_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nanditoamri
+--
+
+SELECT pg_catalog.setval('public.criteria_criteria_id_seq', 9, true);
+
+
+--
+-- Name: processor_processor_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nanditoamri
+--
+
+SELECT pg_catalog.setval('public.processor_processor_id_seq', 5, true);
+
+
+--
+-- Name: specification_spec_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nanditoamri
+--
+
+SELECT pg_catalog.setval('public.specification_spec_id_seq', 3, true);
+
+
+--
+-- Name: alternatives alternatives_pkey; Type: CONSTRAINT; Schema: public; Owner: nanditoamri
+--
+
+ALTER TABLE ONLY public.alternatives
+    ADD CONSTRAINT alternatives_pkey PRIMARY KEY (alter_id);
+
+
+--
+-- Name: criteria criteria_pkey; Type: CONSTRAINT; Schema: public; Owner: nanditoamri
+--
+
+ALTER TABLE ONLY public.criteria
+    ADD CONSTRAINT criteria_pkey PRIMARY KEY (criteria_id);
+
+
+--
+-- Name: processor processor_pkey; Type: CONSTRAINT; Schema: public; Owner: nanditoamri
+--
+
+ALTER TABLE ONLY public.processor
+    ADD CONSTRAINT processor_pkey PRIMARY KEY (processor_id);
+
+
+--
+-- Name: specification specification_pkey; Type: CONSTRAINT; Schema: public; Owner: nanditoamri
+--
+
+ALTER TABLE ONLY public.specification
+    ADD CONSTRAINT specification_pkey PRIMARY KEY (spec_id);
+
+
+--
+-- Name: alternatives fk_processor; Type: FK CONSTRAINT; Schema: public; Owner: nanditoamri
+--
+
+ALTER TABLE ONLY public.alternatives
+    ADD CONSTRAINT fk_processor FOREIGN KEY (processor) REFERENCES public.processor(processor_id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
