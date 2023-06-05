@@ -79,7 +79,7 @@ const updateAlternative = (request, response) => {
   })
 }
 
-const deleteALternatives = (request, response) => {
+const deleteAlternatives = (request, response) => {
   const id = request.params.id;
   pool.query(`
     DELETE FROM alternatives WHERE alter_id = $1
@@ -94,5 +94,5 @@ module.exports = {
   getAlternativeById,
   addAlternative,
   updateAlternative,
-  deleteALternatives,
+  deleteAlternatives,
 }
