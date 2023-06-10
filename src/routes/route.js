@@ -11,7 +11,7 @@ router.delete('/alternatives/:id', alternatives.deleteAlternatives);
 router.get('/criteria', criteria.getAllCriterias);
 router.get('/criteria/:id', criteria.getCriteriaById);
 router.post('/criteria', criteria.addCriteria);
-router.put('/criteria/:id', criteria.updateCriteria);
+router.put('/criteria/:id', criteria.updateWeightCriteria);
 router.delete('/criteria/:id', criteria.deleteCriteria);
 
 router.get('/topsis', model.getTopsisModelResult);

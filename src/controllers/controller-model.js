@@ -13,13 +13,13 @@ const getNormalizedMatrix = async () => {
   try {
     const { rows } = await pool.query(`
       SELECT processor, ram, harddisk, screen_size, battery_life, weight, warranty, price
-      FROM alternatives
+      FROM alternatives ORDER BY alter_id
     `);
 
     const alternativesMatrix = rows.map((row) => Object.values(row));
     const normalizedMatrix = normalizeMatrix(alternativesMatrix);
 
-    return normalizedMatrix;
+    return(normalizedMatrix);
   } catch (error) {
     console.error('Error:', error);
   }
@@ -28,10 +28,16 @@ const getNormalizedMatrix = async () => {
 const getWeightMatrix = async () => {
   try {
     const { rows } = await pool.query(`
-      SELECT weight FROM criteria
+      SELECT weight FROM criteria WHERE used = 1 ORDER BY criteria_id 
     `);
+    
+    let sum = 0;
+    const oldWeight = rows.map((row) => Object.values(row));
+    for (const data of oldWeight) {
+      sum += parseInt(data);
+    }
 
-    const weight = rows.map((row) => Object.values(row));
+    const weight = oldWeight.map((a) => (a/sum));
     return weight;
   } catch (error) {
     console.log('Error : ', error);
@@ -41,7 +47,7 @@ const getWeightMatrix = async () => {
 const getIdealSolution = async (matrix) => {
   try {
     const { rows } = await pool.query(`
-      SELECT impact FROM criteria
+      SELECT impact FROM criteria WHERE used = 1 ORDER BY criteria_id 
     `);
 
     const impact = rows.map((row) => Object.values(row));
@@ -60,6 +66,7 @@ const getTopsisModelResult = async (request, response) => {
   const weightedMatrix = multiplyMatrixByWeights(normalizedmatrix, weight);
   
   const idealSolution = await getIdealSolution(weightedMatrix);
+  console.log(idealSolution);
 
   const distances = calculateDistances(weightedMatrix, idealSolution);
   const rankings = calculateRankings(distances);

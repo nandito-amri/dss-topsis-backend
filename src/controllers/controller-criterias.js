@@ -10,7 +10,7 @@ const getAllCriterias = (request, response) => {
     if (error) {
       throw error
     }
-    response.status(200).json(results.rows)
+    response.status(200).json(results)
   })
 };
 
@@ -39,22 +39,24 @@ const addCriteria = (request, response) => {
   })
 }
 
-const updateCriteria = (request, response) => {
-  const id = request.params.id;
-  const { name, used, impact, weight } = request.body;
+const updateWeightCriteria = async (request, response) => {
+  try {
+    const id = request.params.id;
+    const updatedData = request.body;
 
-  pool.query(`
-    UPDATE criteria SET
-    name = $1,
-    used = $2,
-    impact = $3,
-    weight = $4
-    WHERE criteria_id = $5
-  `, [name, used, impact, weight, id], 
-  (error, results) => {
-    if (error) throw error;
-    response.status(200).send(`Criteria dengan ID : ${id} berhasil diubah`);
-  })
+    // Construct and execute the update query
+    const query = {
+      text: `UPDATE criteria SET weight = $1 WHERE criteria_id = $2`,
+      values: [updatedData.weight, id],
+    };
+
+    await pool.query(query);
+
+    response.json({ message: 'Data updated successfully.' });
+  } catch (error) {
+    console.error('Error:', error);
+    response.status(500).json({ error: 'An error occurred while updating the data.' });
+  }
 }
 
 const deleteCriteria = (request, response) => {
@@ -74,6 +76,6 @@ module.exports = {
   getAllCriterias,
   getCriteriaById,
   addCriteria,
-  updateCriteria,
+  updateWeightCriteria,
   deleteCriteria,
 }
